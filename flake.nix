@@ -5,8 +5,8 @@
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachSystem flake-utils.lib.allSystems (system: {
-      packages.manix = nixpkgs.legacyPackages.${system}.callPackage ./. {};
+    flake-utils.lib.eachDefaultSystem (system: {
+      packages.manix = nixpkgs.legacyPackages.${system}.callPackage ./. { };
       defaultPackage = self.packages.${system}.manix;
     });
 }
