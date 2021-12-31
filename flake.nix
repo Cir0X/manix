@@ -20,7 +20,8 @@
     }:
     flake-utils.lib.eachDefaultSystem (system:
     let pkgs = import nixpkgs { inherit system; }; in
-    {
-      defaultPackage = naersk.lib.${system}.buildPackage ./.;
+    rec {
+      packages.manix = naersk.lib.${system}.buildPackage ./.;
+      defaultPackage = packages.manix;
     });
 }
