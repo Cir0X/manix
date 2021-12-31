@@ -23,5 +23,11 @@
     rec {
       packages.manix = naersk.lib.${system}.buildPackage ./.;
       defaultPackage = packages.manix;
+      devShell = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          rust-analyzer
+          cargo-flamegraph
+        ];
+      };
     });
 }
