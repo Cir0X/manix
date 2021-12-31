@@ -18,16 +18,23 @@
     , naersk
     , flake-compat
     }:
-    flake-utils.lib.eachDefaultSystem (system:
-    let pkgs = import nixpkgs { inherit system; }; in
-    rec {
-      packages.manix = naersk.lib.${system}.buildPackage ./.;
-      defaultPackage = packages.manix;
-      devShell = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          rust-analyzer
-          cargo-flamegraph
-        ];
-      };
-    });
+    let
+      pname = "manix";
+    in
+    flake-utils.lib.eachDefaultSystem
+      (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        naersk-lib = naersk.lib.${system};
+      in
+      rec {
+        packages.${pname} = naersk-lib.buildPackage ./.;
+        defaultPackage = packages.${pname};
+        devShell = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            rust-analyzer
+            cargo-flamegraph
+          ];
+        };
+      });
 }
